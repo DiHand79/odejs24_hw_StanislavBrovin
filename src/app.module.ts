@@ -3,7 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LoggerModule } from './logger/logger.module';
 import { MiddlewareConsumer, RequestMethod } from '@nestjs/common';
-import { LoggerMiddleware } from './logger/logger.middleware';
+// import { LogIpMiddleware } from './logger/logger.middleware';
+import { LogIpMiddleware } from './middleware/log-ip.middleware';
 
 @Module({
   imports: [LoggerModule],
@@ -13,7 +14,7 @@ import { LoggerMiddleware } from './logger/logger.middleware';
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(LoggerMiddleware)
+      .apply(LogIpMiddleware)
       .forRoutes({ path: '/', method: RequestMethod.ALL });
   }
 }
