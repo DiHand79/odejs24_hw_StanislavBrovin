@@ -3,14 +3,16 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
+  Patch,
   Delete,
+  ParseIntPipe,
+  Put,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { IUser, IUserID, allUsers } from './users.list';
+import { UpdateUserDto, UpdateUserFullDto } from './dto/update-user.dto';
+import { IUser } from './users.list';
 
 @Controller('users')
 export class UsersController {
@@ -21,9 +23,16 @@ export class UsersController {
     return this.usersService.getAllUsers();
   }
 
-  @Get(':id') // path param
-  getUser(@Param() query: IUserID): IUser {
-    return this.usersService.getCurrentUser(query);
+  // query param > localhost:3000/users?id=3
+  // @Get(':id')
+  // getUser(@Query() query: IUserID): IUser {
+  //   return this.usersService.getCurrentUser(query);
+  // }
+
+  // path param  > localhost:3000/users/3
+  @Get(':id')
+  getUser(@Param('id', ParseIntPipe) id: number): IUser {
+    return this.usersService.getCurrentUser(id);
   }
 
   @Post('new')
@@ -31,13 +40,24 @@ export class UsersController {
     return this.usersService.addNewUser(dto);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.usersService.update(+id, updateUserDto);
-  // }
+  @Delete(':id')
+  removeUser(@Param('id', ParseIntPipe) id: number): IUser[] {
+    return this.usersService.removeCurrentUser(id);
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.usersService.remove(+id);
-  // }
+  @Patch(':id')
+  updateCurrentUser(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: Partial<UpdateUserDto>,
+  ): IUser[] {
+    return this.usersService.updateCurrentUser(id, dto);
+  }
+
+  @Put(':id')
+  updateCurrentUserFull(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() userData: UpdateUserFullDto,
+  ): IUser[] {
+    return this.usersService.updateCurrentUserFull(id, userData);
+  }
 }
