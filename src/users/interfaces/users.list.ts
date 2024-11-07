@@ -1,9 +1,13 @@
 interface IUser {
+  userName: string;
   firstName: string;
   lastName: string;
   age: number;
   isStudent: boolean;
   id: number;
+  password?: string;
+  accessToken?: string;
+  refreshToken?: string;
 }
 
 interface IUserID {
@@ -12,25 +16,37 @@ interface IUserID {
 
 const allUsers: IUser[] = [
   {
+    userName: 'AlexWoo',
     firstName: 'Alex',
     lastName: 'Woo',
     age: 34,
     isStudent: true,
     id: 1234567890,
+    password: process.env.DEFAULT_PASSWORD,
+    accessToken: '',
+    refreshToken: '',
   },
   {
+    userName: 'AlexBolduin',
     firstName: 'Alex',
     lastName: 'Bolduin',
     age: 23,
     isStudent: false,
     id: 1234567891,
+    password: process.env.DEFAULT_PASSWORD,
+    accessToken: '',
+    refreshToken: '',
   },
   {
-    firstName: 'Stan',
-    lastName: 'Bro',
-    age: 45,
-    isStudent: true,
+    userName: 'AlexSich',
+    firstName: 'Alex',
+    lastName: 'Sich',
+    age: 41,
+    isStudent: false,
     id: 1234567892,
+    password: process.env.DEFAULT_PASSWORD,
+    accessToken: '',
+    refreshToken: '',
   },
 ];
 
@@ -51,4 +67,4 @@ const allUsers: IUser[] = [
 }
 */
 
-export { IUser, allUsers, IUserID };
+export { IUser, IUserID, allUsers };

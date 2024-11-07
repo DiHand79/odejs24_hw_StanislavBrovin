@@ -1,0 +1,83 @@
+{{! https://medium.com/geekculture/send-files-with-html5s-form-and-catching-with-express-js-handlebars-templating-bacc2fa7cd09 }}
+{{! https://forum.freecodecamp.org/t/method-post-with-handlebars-express-mongodb/189275 }}
+<html>
+  <head>
+    <title>Welcome Page</title>
+  </head>
+  <body style='min-width: 320px; overflow: hidden;'>
+    <h1 style='text-align: center;max-width: 1200px;  margin: 0 auto;'>Welcome
+      to my Awesome NestJS App</h1>
+    <p
+      style='text-align: center; max-width: 800px margin: 0 auto;'
+    >{{message}}</p>
+
+    <form
+      action='./auth/signup'
+      method='POST'
+      enctype='multipart/form-data'
+      style='width: 320px; padding: 0.5em; margin: 0 auto;'
+    >
+      <fieldset id='commentFS' style='display: flex; flex-direction: column;'>
+        <legend><h3 style='text-transform: capitalize;'>sign up</h3></legend>
+        <div style='display: flex; flex-direction: column;  margin: 0.5em 0;'>
+          <label for='username'>Username:</label>
+          <input
+            id='username'
+            name='username'
+            type='text'
+            placeholder='enter username'
+          />
+        </div>
+        <div style='display: flex; flex-direction: column;  margin: 0.5em 0;'>
+          <label for='password'>Password:</label>
+          <input
+            id='password'
+            name='password'
+            type='password'
+            placeholder='enter password'
+          />
+        </div>
+
+        <div style='display: flex; flex-direction: column;  margin: 0.5em 0;'>
+          <label for='firstName'>First Name:</label>
+          <input
+            id='firstName'
+            name='firstName'
+            type='text'
+            placeholder='enter First Name'
+          />
+        </div>
+
+        <div style='display: flex; flex-direction: column;  margin: 0.5em 0;'>
+          <label for='lastName'>Last Name:</label>
+          <input
+            id='lastName'
+            name='lastName'
+            type='text'
+            placeholder='enter Last Name'
+          />
+        </div>
+
+        <div style='display: flex; flex-direction: column;  margin: 0.5em 0;'>
+          <label for='age'>Age:</label>
+          <input id='age' name='age' type='number' placeholder='enter Age' />
+        </div>
+
+        <div style='display: flex; flex-direction: column;  margin: 0.5em;'>
+          <label for='isStudent'>Is Student:</label>
+          <input id='isStudent' name='isStudent' type='checkbox' />
+        </div>
+
+        <button type='submit'><a id='btn-signup'>Sign Up</a></button>
+      </fieldset>
+    </form>
+    <button
+      type='button'
+      style='display: block; width: 320px; margin: 0.5em auto;'
+    ><a
+        href='../'
+        id='btn-signin'
+        style='display: block; padding: 0.5em;'
+      >Back</a></button>
+  </body>
+</html>

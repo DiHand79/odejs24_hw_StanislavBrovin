@@ -1,50 +1,64 @@
-import { Body, Controller, Get, Post, Res, Render } from '@nestjs/common';
-import { Response } from 'express';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Res,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
+import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import SignUpUserDto from './dto/sign-up-user.dto';
 import SignInUserDto from './dto/sign-in-user.dto';
+import AuthTokenGuard from 'src/guards/access-token.guard';
+import RefreshTokenGuard from 'src/guards/refresh-token.guard';
 
-// https://handlebarsjs.com/
-
-@Controller('/auth')
+@Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
-  /* 
-    в уроке на 1:39
 
-    иам оба sighUp signIn + useGuards
-  
-    */
   @Get()
   isAuth(@Res() res: Response) {
-    return res.render('authWelcome', { message: 'Plese select:' });
+    console.log('AUTH page: ');
+    return res.render('loginWelcome', { message: 'Plese select:' });
   }
 
-  @Get('/signup')
-  @Render('signUpWelcome')
-  _isSignUp() {}
-
-  @Get('/signin')
-  @Render('signInWelcome')
-  _isSignIn() {}
-
-  @Post('/auth/signup')
-  async isSignUp(@Res() res: Response, @Body() dto: SignUpUserDto) {
-    const authRes = await this.authService.signUp(dto);
-    console.log('authRes: ', authRes);
-
-    return res.render('authWelcome', {
-      message: `Plese signup ${authRes}`,
-    });
+  @Post('signup')
+  async isSignUp(@Body() dto: SignUpUserDto) {
+    console.log('POST signup: ');
+    return this.authService.signUp(dto);
   }
 
-  @Post('/auth/signin')
-  async isSignIn(@Res() res: Response, @Body() dto: SignInUserDto) {
-    const authRes = await this.authService.signUp(dto);
-    console.log('authRes: ', authRes);
+  @Post('signin')
+  async isSignIn(@Body() dto: SignInUserDto) {
+    console.log('POST signin: ');
+    return this.authService.signIn(dto);
+  }
 
-    return res.render('authWelcome', {
-      message: `Plese signin ${authRes}`,
-    });
+  @UseGuards(AuthTokenGuard)
+  @Post('logout')
+  async isLogout(@Req() req: Request) {
+    console.log('logout', req, req.user['sub']);
+    this.authService.logOut(req.user['sub']);
+  }
+
+  @UseGuards(RefreshTokenGuard)
+  @Get('test')
+  async isTest(@Res() res: Response) {
+    console.log('Test Autorized user page');
+    return res.render('testAutorizedPage', { message: 'You great man!' });
+  }
+
+  /* 
+    TODO  https://youtu.be/Fk33eoWYqnw?t=6791
+  */
+  @UseGuards(RefreshTokenGuard)
+  @Post('refresh')
+  refreshTokens(@Req() req: Request) {
+    console.log('refresh >>>:\n', req.user['sub']);
+    const userId = req.user['sub'];
+    const refreshToken = req.user['refreshToken'];
+    return this.authService.refreshToken(userId, refreshToken);
   }
 }

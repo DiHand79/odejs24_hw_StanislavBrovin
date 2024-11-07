@@ -14,6 +14,13 @@ https://docs.nestjs.com/techniques/mvc
 https://handlebarsjs.com/guide/#simple-expressions
 https://github.com/facundo1000/thiagos-app/blob/master/src/main.ts
 */
+
+/* 
+NODEJS console.log() colorfull
+// https://blog.logrocket.com/using-console-colors-node-js/
+// https://muffinman.io/blog/nodejs-simple-colorful-logging/
+// https://en.m.wikipedia.org/wiki/ANSI_escape_code#Colors
+*/
 async function bootstrap() {
   // const app = await NestFactory.create(AppModule);
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
